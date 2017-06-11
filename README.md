@@ -16,13 +16,13 @@ end
 ## Use
 
 ```elixir
-iex> PDF.to_binary("<html><p>x</p></html>")
+iex> PDF.to_file("<html><p>x</p></html>", author: "Bob", keywords: ~w(shopping store), dpi: 1600)
 {:ok, "tmp/AAVRsgST4ds4NjQ4NavJUzrPrLGitZo=.pdf"}
 
-iex> PDF.to_binary("<html><p>x</p></html>", output: "test.pdf")
+iex> PDF.to_file("<html><p>x</p></html>", output: "test.pdf")
 {:ok, "test.pdf"}
 
-iex> PDF.to_binary("<html><p>x</p></html>", author: "Bob", keywords: ~w(shopping store), dpi: 1600)
+iex> PDF.to_binary("<html><p>x</p></html>")
 {:ok,
  <<37, 80, 68, 70, 45, 49, 46, 52, 10, 37, 191, 247, 162, 254, 10, 52, 32, 48,
    32, 111, 98, 106, 10, 60, 60, 32, 47, 76, 105, 110, 101, 97, 114, 105, 122,
