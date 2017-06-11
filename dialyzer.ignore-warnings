@@ -1,0 +1,1 @@
+lib/pdf.ex:23: Overloaded contract for 'Elixir.PDF':to_binary/2 has overlapping domains; such contracts are currently unsupported and are simply ignored
