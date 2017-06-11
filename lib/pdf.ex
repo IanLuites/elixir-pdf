@@ -10,7 +10,7 @@ defmodule PDF do
     * `{:html, html}`, will convert the given html to a PDF.
     * `html`, will be turned into `{:html, html}`.
   """
-  @type input :: {:file, String.t} | {:html, String.t} | String.t
+  @type input :: {:file, String.t} | {:html, String.t} | {:url, String.t} | String.t
 
   # Base exif to run to clean up.
   @exif_base ~w(-overwrite_original -all:all=)
@@ -70,6 +70,14 @@ defmodule PDF do
   @spec to_file(input, Keyword.t) :: {:ok, String.t} | {:error, atom}
   def to_file(data, options \\ [])
 
+  def to_file({:html, html}, options) do
+    with {:ok, file} <- Temp.file(suffix: ".html", label: :pdf),
+         :ok <- File.write(file, html)
+    do
+      to_file({:file, file}, options)
+    end
+  end
+
   def to_file({:file, file}, options) do
     result =
       with {:ok, pdf} <- Temp.file(suffix: ".pdf", label: :pdf),
@@ -85,14 +93,7 @@ defmodule PDF do
     result
   end
 
-  def to_file({:html, html}, options) do
-    with {:ok, file} <- Temp.file(suffix: ".html", label: :pdf),
-         :ok <- File.write(file, html)
-    do
-      to_file({:file, file}, options)
-    end
-  end
-
+  def to_file({:url, url}, options), do: to_file({:file, url}, options)
   def to_file(html, options), do: to_file({:html, html}, options)
 
   ### Banged! ###
